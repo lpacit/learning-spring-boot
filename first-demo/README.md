@@ -14,5 +14,6 @@ and it has 3 dependencies:
 Add these:
   - Put __@RestController__ on top of the main class
   - create a new method with the annotation __@GetMapping__ and make it return a list
-  - you will visualize a JSON on the server page
+  - you will visualize a JSON on the server page  
+
 ![alt text](./images/helloworldapi.png "Hello World Json")
