@@ -17,3 +17,16 @@ Add these:
   - you will visualize a JSON on the server page  
 
 ![alt text](./images/helloworldapi.png "Hello World Json")
+
+## Adding Student Class (API LAYER)
++ Created the Student Class
++ Migrated __RestController__ from _DemoApplication_ to _StudentController_
+
+## Adding business logic for managing students (Service Layer)
++ Created __StudentService__ class which now has the actual job to return students info
++ Things to remember:
+  + In the __StudentController__ class declare an instance of __StudentService__
+  + Invoke the __getStudents__ method from _controller_ but __implement it__ in _service_
+  + Add __RequestMapping__ (the path you specify is to access the api at _localhost:8080/api/v1/student_)
+
+![alt text](./images/service-and-controller.png)
