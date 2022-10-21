@@ -30,3 +30,9 @@ Add these:
   + Add __RequestMapping__ (the path you specify is to access the api at _localhost:8080/api/v1/student_)
 
 ![alt text](./images/service-and-controller.png)
+
+## Dependency injection
++ Added _@Autowired_ on top of __StudentController__ constructor to auto-instantiate the _studentService_ class
++ Added _@Service_ on top of __StudentService__ class
+
+## Data Access Layer
