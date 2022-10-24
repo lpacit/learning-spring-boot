@@ -21,14 +21,12 @@ public class StudentConfig {
                     1L,
                     "Mariam",
                     "Mariam.jamal@gmail.com",
-                    25,
                     LocalDate.of(1997, AUGUST,10)
             );
 
             Student alex = new Student(
                     "Alex",
                     "alex.delpiero@gmail.com",
-                    30,
                     LocalDate.of(2000, JANUARY,10)
             );
 
