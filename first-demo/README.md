@@ -150,5 +150,29 @@ public Integer getAge() {
 hence deleted the declaration of the `age` attribute from constructors.
 
 # POST MAPPING
+![alt text](./images/post-request.png "POST Request")
++ In `@StudentController`
+```java
+@PostMapping
+public void registerNewStudent(@RequestBody Student student) {
+    studentService.addNewStudent(student);
+}
+```
+`RequestBody` takes the request and maps it into the `Student` object
+
++ Tested APIs with _Postman_
+![alt text](./images/postman-test.png "Postman Test")
++ Added logic to check if email added is already present (inside of `StudentService` class)
+```java
+public void addNewStudent(Student student) {
+    Optional<Student> studentOptional = studentRepository
+        .findStudentByEmail(student.getEmail());
+
+    if (studentOptional.isPresent()) {
+        throw new IllegalStateException("Email taken");
+    }
+    studentRepository.save(student);
+}
+```
 
 
