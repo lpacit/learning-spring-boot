@@ -1,5 +1,5 @@
 # First Project
-This project has been created directly from Spring Initializer
+This project has been created directly from Spring Initializer,
 and it has 3 dependencies:
 - Spring Web
 - Spring Data JPA
@@ -12,27 +12,128 @@ and it has 3 dependencies:
   - __static__ and __templates__ are for web development (HTML, CSS, JavaScript)
 + When you run this application, you can go to localhost:8080 to visualize the content.  
 Add these:
-  - Put __@RestController__ on top of the main class
-  - create a new method with the annotation __@GetMapping__ and make it return a list
+  - Put `@RestController` on top of the main class
+  - create a new method with the annotation `@GetMapping` and make it return a list
   - you will visualize a JSON on the server page  
 
 ![alt text](./images/helloworldapi.png "Hello World Json")
 
 ## Adding Student Class (API LAYER)
 + Created the Student Class
-+ Migrated __RestController__ from _DemoApplication_ to _StudentController_
++ Migrated `RestController` from `DemoApplication` to `StudentController`
 
 ## Adding business logic for managing students (Service Layer)
-+ Created __StudentService__ class which now has the actual job to return students info
++ Created `StudentService` class which now has the actual job to return students info
 + Things to remember:
-  + In the __StudentController__ class declare an instance of __StudentService__
-  + Invoke the __getStudents__ method from _controller_ but __implement it__ in _service_
-  + Add __RequestMapping__ (the path you specify is to access the api at _localhost:8080/api/v1/student_)
+  + In the `StudentController` class declare an instance of `StudentService`
+  + Invoke the `getStudents` method from _controller_ but __implement it__ in _service_
+  + Add `@RequestMapping` (the path you specify is to access the api at `localhost:8080/api/v1/student`)
 
-![alt text](./images/service-and-controller.png)
+```java
+@RestController
+@RequestMapping(path = "api/v1/student")
+public class StudentController {
+    private final StudentService studentService;
 
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
+    @GetMapping
+    public List<Student> getStudents(String name) {
+        return studentService.getStudents();
+    }
+}
+```
 ## Dependency injection
-+ Added _@Autowired_ on top of __StudentController__ constructor to auto-instantiate the _studentService_ class
-+ Added _@Service_ on top of __StudentService__ class
++ Added `@Autowired` on top of `StudentController` constructor to auto-instantiate the `studentService` class
++ Added `@Service` on top of `StudentService` class
 
 ## Data Access Layer
++ Created PostgreSQL Database and configured _psql_
++ Updated `application.properties` with database informations
+```
+spring.datasource.url=jdbc:postgresql://localhost:5432/...
+spring.datasource.username=...
+spring.datasource.password=... 
+```
++ Added annotations on Student class to make a database table out of it
+
+```java
+@Entity
+@Table  
+public class Student {
+  @Id
+  @SequenceGenerator(
+          name = "student_sequence",
+          sequenceName = "student_sequence",
+          allocationSize = 1
+  )
+  @GeneratedValue(
+          strategy = GenerationType.SEQUENCE,
+          generator = "student_sequence"
+  )
+
+  private Long id;
+  private String name;
+  private String email;
+  private Integer age;
+  private LocalDate dateOfBirth;
+  ...
+}
+```
+
++ Added `StudentRepository` **interface** to use database-ish actions (`findAll` ecc)
+```java
+@Repository    // Responsible for data access
+public interface StudentRepository extends JpaRepository<Student, Long> { }
+```
++ Changed the `getStudents` _service_ method to use interface's `findAll` method
+
+```java
+@Service
+public class StudentService {
+    private final StudentRepository studentRepository;
+
+    @Autowired
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
+    public List<Student> getStudents() {
+        return studentRepository.findAll();
+    }
+}
+```
+
++ Added `StudentConfig` class to save entries in database
+```java
+@Configuration
+public class StudentConfig {
+
+    @Bean
+    CommandLineRunner commandLineRunner(StudentRepository repository) {
+        return args -> {
+            Student mariam = new Student(
+                    1L,
+                    "Mariam",
+                    "Mariam.jamal@gmail.com",
+                    25,
+                    LocalDate.of(1997, AUGUST,10)
+            );
+
+            Student alex = new Student(
+                    "Alex",
+                    "alex.delpiero@gmail.com",
+                    30,
+                    LocalDate.of(2000, JANUARY,10)
+            );
+
+            repository.saveAll(
+                    List.of(mariam, alex)
+            );
+        };
+    }
+}
+```
