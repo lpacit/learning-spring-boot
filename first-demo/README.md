@@ -187,3 +187,7 @@ public void deleteStudent(@PathVariable("studentId") Long id) {
 
 ![alt text](./images/delete-student.png "delete student")
 
+
+## PUT operations
++ Modify name and email of a student
+
