@@ -137,3 +137,18 @@ public class StudentConfig {
     }
 }
 ```
+
+## Transient section
++ Added the `@Transient` annotation to the `age` attribute
+  + the field marked with `@Transient` is ignored by mapping framework and the field not mapped to any database column
++ Changed the logic to calculate the age with `LocalDate`
+```java
+public Integer getAge() {
+    return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
+}
+```
+hence deleted the declaration of the `age` attribute from constructors.
+
+# POST MAPPING
+
+
