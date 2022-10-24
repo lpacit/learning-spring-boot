@@ -175,4 +175,14 @@ public void addNewStudent(Student student) {
 }
 ```
 
+## Deleting Students
+```java
+@DeleteMapping(path = "{studentId}")
+public void deleteStudent(@PathVariable("studentId") Long id) {
+    studentService.deleteStudent(id);
+}
+```
+
++ API accessible at `http://localhost:8080/api/v1/student/ID_OF_STUDENT`
+![alt text](./images/delete-student.png "delete student")
 
