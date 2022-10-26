@@ -41,7 +41,29 @@ Which results in the basic login method:
 
 <img src="./images/basic-auth-login.png" width="40%">
 
+**_NOTE_**: In order to have [this login page](./images/login.png) displayed, just add `.formLogin()`. 
+
 ## Whitelist URLs with Ant Matchers
 If you want to add an `index.html` file as the landing page for `localhost:8080`, every time you try to want to access this page you need to provide authentication.
 Instead, you want to have clear access to this page, and provide credentials when making API calls.
+
+There are a few options available:
++ Method suggested by Spring docs. Inside of `ApplicationSecurityConfig` class:
+```java
+@Bean
+public WebSecurityCustomizer webSecurityCustomizer() {
+    return web -> web.ignoring().antMatchers("/", "index", "/css/*", "/js/*");
+}
+```
++ Other method figured out by myself. Inside of `filterChain` method:
+```java
+http
+        .authorizeHttpRequests()
+        .antMatchers("/", "index.html", "/css/*", "/js/")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .httpBasic(withDefaults()).formLogin();
+```
 
