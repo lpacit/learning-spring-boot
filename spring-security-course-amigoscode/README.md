@@ -38,7 +38,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-Which results in:
-<img src="./images/basic-auth-login.png" width="80%">
+Which results in the basic login method:
+
+<img src="./images/basic-auth-login.png" width="40%">
 
 
