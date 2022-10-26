@@ -1,6 +1,6 @@
 # Description
 
-+ adding this dependency:
+adding this dependency:
 
 ```xml
 <dependency>
@@ -11,4 +11,11 @@
 
 automatically adds _login_ form when making the requests:
 
-<img src="./images/login.png" width="300" align="center">
+<img src="./images/login.png" width="300">
+
+to quit the session go to `localhost:8080/logout`
+
+
+## Basic Auth
+
+<img src="./images/basic-auth.png">
