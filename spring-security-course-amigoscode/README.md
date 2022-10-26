@@ -67,3 +67,46 @@ http
         .httpBasic(withDefaults()).formLogin();
 ```
 
+## Application Users
+
++ This is for adding users in an **_in-memory_** datastore:
+```java
+@Bean
+public InMemoryUserDetailsManager userDetailsService() {
+    UserDetails annaSmithUser = User.withDefaultPasswordEncoder()
+        .username("annasmith")
+        .password("annasmith")
+        .roles("STUDENT")   // ROLE_STUDENT
+        .build();
+    return new InMemoryUserDetailsManager(annaSmithUser);
+}
+```
+
+### Adding custom password encoding
+
++ Created `PasswordConfig` class:
+
+```java
+@Configuration
+public class PasswordConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
+}
+```
+
++ Inside of `ApplicationSecurityConfig` class:
+
+```java
+@Bean
+public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+    UserDetails annaSmithUser = User.builder()
+        .username("annasmith")
+        .password(passwordEncoder.encode("annasmith"))
+        .roles("STUDENT")   // ROLE_STUDENT
+        .build();
+    return new InMemoryUserDetailsManager(annaSmithUser);
+}
+```
