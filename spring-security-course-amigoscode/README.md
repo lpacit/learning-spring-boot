@@ -11,7 +11,7 @@ adding this dependency:
 
 automatically adds _login_ form when making the requests:
 
-<img src="./images/login.png" width="50%">
+<img src="./images/login.png" width="40%">
 
 to quit the session go to `localhost:8080/logout`
 
@@ -19,7 +19,7 @@ to quit the session go to `localhost:8080/logout`
 ## Basic Auth
 With this username and password are provided for every request. Hence, there is no way to _logout_.
 
-<img src="./images/basic-auth.png" width="60%">
+<img src="./images/basic-auth.png" width="50%">
 
 The implementation comes with the new class `ApplicationSecurityConfig` under the `security` package.
 
