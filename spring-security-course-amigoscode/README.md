@@ -17,23 +17,22 @@ to quit the session go to `localhost:8080/logout`
 
 
 ## Basic Auth
-With this method you need to provide username and password for every request.
+With this username and password are provided for every request. Hence, there is no way to _logout_.
 
-<img src="./images/basic-auth.png">
+<img src="./images/basic-auth.png" width="80%">
 
 The implementation comes with the new class `ApplicationSecurityConfig` under the `security` package.
 
 ```java
 @Configuration
-@EnableWebSecurity
-public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();    // Basic Authentication
+public class ApplicationSecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authz -> 
+                        authz.anyRequest().authenticated()
+                ).httpBasic(withDefaults());
+        return http.build();
     }
 }
 ```
@@ -42,4 +41,7 @@ Which results in the basic login method:
 
 <img src="./images/basic-auth-login.png" width="40%">
 
+## Whitelist URLs with Ant Matchers
+If you want to add an `index.html` file as the landing page for `localhost:8080`, every time you try to want to access this page you need to provide authentication.
+Instead, you want to have clear access to this page, and provide credentials when making API calls.
 
