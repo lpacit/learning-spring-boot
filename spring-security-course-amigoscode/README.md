@@ -10,4 +10,5 @@
 ```
 
 automatically adds _login_ form when making the requests:
-![alt text](./images/login.png)
+
+<img src="./images/login.png" width="300" height="">
