@@ -3,8 +3,11 @@ package com.example.demo.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -49,4 +52,16 @@ public class ApplicationSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().antMatchers("/", "index", "/css/*", "/js/*");
     }
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+        UserDetails annaSmithUser = User.builder()
+                .username("annasmith")
+                .password(passwordEncoder.encode("annasmith"))
+                .roles("STUDENT")   // ROLE_STUDENT
+                .build();
+        return new InMemoryUserDetailsManager(annaSmithUser);
+    }
+
+
 }
