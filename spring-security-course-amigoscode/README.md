@@ -162,8 +162,8 @@ Now you can add permissions to your user like this:
 
 ```java
 ...
-.password(passwordEncoder.encode("linda"))
-.roles(ADMIN.name())
+    .password(passwordEncoder.encode("linda"))
+    .roles(ADMIN.name())
 ...
 ```
 
@@ -177,5 +177,21 @@ Now you can add permissions to your user like this:
 ```
 
 ## Role based authentication
+
+```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(authorize -> authorize
+        .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+        .antMatchers("/api/**").hasRole(STUDENT.name())     // THIS
+        .anyRequest()
+        .authenticated())
+        .httpBasic(withDefaults()).formLogin();
+
+    return http.build();
+}
+```
+
 
 
