@@ -10,22 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.example.demo.security.ApplicationUserRole.*;
 import static org.springframework.security.config.Customizer.withDefaults;
-
-
-// DEPRECATED
-//@Configuration
-//@EnableWebSecurity
-//public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .httpBasic();    // Basic Authentication
-//    }
-//}
 
 @Configuration
 public class ApplicationSecurityConfig {
@@ -37,14 +23,7 @@ public class ApplicationSecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .httpBasic(withDefaults()).formLogin();
-//        http
-//                .authorizeHttpRequests()
-//                .antMatchers("/", "index.html", "/css/*", "/js/")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .httpBasic(withDefaults()).formLogin();
+
         return http.build();
     }
 
@@ -58,9 +37,18 @@ public class ApplicationSecurityConfig {
         UserDetails annaSmithUser = User.builder()
                 .username("annasmith")
                 .password(passwordEncoder.encode("annasmith"))
-                .roles("STUDENT")   // ROLE_STUDENT
+                .roles(STUDENT.name())   // ROLE_STUDENT
                 .build();
-        return new InMemoryUserDetailsManager(annaSmithUser);
+
+        UserDetails lindaUser = User.builder()
+                .username("linda")
+                .password(passwordEncoder.encode("linda"))
+                .roles(ADMIN.name())
+                .build();
+
+        return new InMemoryUserDetailsManager(
+                annaSmithUser,
+                lindaUser);
     }
 
 
