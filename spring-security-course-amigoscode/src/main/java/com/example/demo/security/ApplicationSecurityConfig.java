@@ -1,43 +1,49 @@
 package com.example.demo.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
 
 import static com.example.demo.security.ApplicationUserRole.*;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-public class ApplicationSecurityConfig {
+@EnableWebSecurity
+public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest()
-                        .authenticated())
-                .httpBasic(withDefaults()).formLogin();
-
-        return http.build();
+                .authorizeRequests()
+                .antMatchers("index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/api/*").hasAuthority(STUDENT.name())
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
     }
 
+    @Override
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/", "index", "/css/*", "/js/*");
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+    protected InMemoryUserDetailsManager userDetailsService() {
         UserDetails annaSmithUser = User.builder()
                 .username("annasmith")
                 .password(passwordEncoder.encode("annasmith"))
-                .roles(STUDENT.name())   // ROLE_STUDENT
+                .roles(STUDENT.name())
                 .build();
 
         UserDetails lindaUser = User.builder()
@@ -47,9 +53,8 @@ public class ApplicationSecurityConfig {
                 .build();
 
         return new InMemoryUserDetailsManager(
-                annaSmithUser,
-                lindaUser);
+            annaSmithUser,
+            lindaUser
+        );
     }
-
-
 }
