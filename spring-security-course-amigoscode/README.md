@@ -167,11 +167,15 @@ Now you can add permissions to your user like this:
 ...
 ```
 
-**_NOTE_**: a dependency has been added to the pom previosly:
+**_NOTE_**: a dependency has been added to the pom previously:
 ```xml
 <dependency>
     <groupId>com.google.guava</groupId>
     <artifactId>guava</artifactId>
-    <version>31.1-jre</version>
+    <version>28.1-jre</version>
 </dependency>
 ```
+
+## Role based authentication
+
+
