@@ -1,13 +1,12 @@
 package com.example.demo.student;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Controller
-@RequestMapping(path = "management/api/v1/students")
+@RestController
+@RequestMapping("management/api/v1/students")
 public class ManagementStudentController {
 
     private static final List<Student> STUDENTS = Arrays.asList(
