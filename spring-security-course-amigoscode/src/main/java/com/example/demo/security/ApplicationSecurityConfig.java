@@ -17,19 +17,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class ApplicationSecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                        .antMatchers("/api/**").hasRole(STUDENT.name())
                         .anyRequest()
                         .authenticated())
                 .httpBasic(withDefaults()).formLogin();
 
         return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/", "index", "/css/*", "/js/*");
     }
 
     @Bean
