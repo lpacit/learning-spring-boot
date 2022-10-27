@@ -14,7 +14,7 @@
 	<name>springSecurity</name>
 	<description>Amigoscode Spring Security Course</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>16</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
