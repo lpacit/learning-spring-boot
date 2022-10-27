@@ -17,7 +17,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class ApplicationSecurityConfig {
 
     @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
