@@ -30,7 +30,7 @@ public class ApplicationSecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+    protected InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails annaSmithUser = User.builder()
                 .username("annasmith")
                 .password(passwordEncoder.encode("annasmith"))
