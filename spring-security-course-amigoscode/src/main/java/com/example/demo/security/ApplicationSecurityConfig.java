@@ -21,6 +21,7 @@ public class ApplicationSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                         .antMatchers("/api/**").hasRole(STUDENT.name())
+//                        .antMatchers("management/api/**").hasRole(ADMIN.name())
                         .anyRequest()
                         .authenticated())
                 .httpBasic(withDefaults()).formLogin();
@@ -42,10 +43,16 @@ public class ApplicationSecurityConfig {
                 .roles(ADMIN.name())
                 .build();
 
+        UserDetails tomUser = User.builder()
+                .username("tom")
+                .password(passwordEncoder.encode("tom"))
+                .roles(ADMINTRAINEE.name())
+                .build();
+
         return new InMemoryUserDetailsManager(
                 annaSmithUser,
-                lindaUser);
+                lindaUser,
+                tomUser
+        );
     }
-
-
 }
