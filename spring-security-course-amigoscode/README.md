@@ -110,3 +110,68 @@ public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEnc
     return new InMemoryUserDetailsManager(annaSmithUser);
 }
 ```
+
+## Roles and Permissions
+To manage users roles and permissions, you can add enums like theese:
++ First, create a enum for the roles: `ApplicationUserRole`
+
+```java
+public enum ApplicationUserRole {
+    STUDENT(Sets.newHashSet()),
+    ADMIN(Sets.newHashSet(
+            STUDENT_WRITE,
+            STUDENT_READ,
+            COURSE_WRITE,
+            COURSE_READ
+    ));
+
+    private final Set<ApplicationUserPermission> permissions;
+
+
+    ApplicationUserRole(Set<ApplicationUserPermission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public Set<ApplicationUserPermission> getPermissions() {
+        return permissions;
+    }
+}
+```
+
++ Second, create an enum like this:
+```java
+public enum ApplicationUserPermission {
+    STUDENT_READ("student:read"),
+    STUDENT_WRITE("student:write"),
+    COURSE_READ("courses:read"),
+    COURSE_WRITE("courses:write");
+
+    private final String permission;
+
+    ApplicationUserPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+}
+```
+
+Now you can add permissions to your user like this:
+
+```java
+...
+.password(passwordEncoder.encode("linda"))
+.roles(ADMIN.name())
+...
+```
+
+**_NOTE_**: a dependency has been added to the pom previosly:
+```xml
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+```
