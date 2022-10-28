@@ -20,7 +20,7 @@ public class ApplicationSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        String managementAntMatcherPath = "/management/api/**";
+//        String managementAntMatcherPath = "/management/api/**";
         http
                 .csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
