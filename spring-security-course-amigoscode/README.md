@@ -67,6 +67,9 @@ http
         .httpBasic(withDefaults()).formLogin();
 ```
 
+**_IMPORTANT_**: the order of the `antMatchers` you define _**DOES matter**_. 
+<br>Code accordingly.
+
 ## Application Users
 
 + This is for adding users in an **_in-memory_** datastore:
