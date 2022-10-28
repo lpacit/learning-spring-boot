@@ -44,7 +44,7 @@ Which results in the basic login method:
 **_NOTE_**: In order to have [this login page](./images/login.png) displayed, just add `.formLogin()`. 
 
 ## Whitelist URLs with Ant Matchers
-If you want to add an `index.html` file as the landing page for `localhost:8080`, every time you try to want to access this page you need to provide authentication.
+If you want to add an `index.html` file as the landing page for `localhost:8080`, every time you try to want to access this page you need to provide authentication.<br>
 Instead, you want to have clear access to this page, and provide credentials when making API calls.
 
 There are a few options available:
@@ -182,16 +182,87 @@ Now you can add permissions to your user like this:
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
+        .csrf().disable()
         .authorizeHttpRequests(authorize -> authorize
-        .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-        .antMatchers("/api/**").hasRole(STUDENT.name())     // THIS
-        .anyRequest()
-        .authenticated())
+            .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+            .antMatchers("/api/**").hasRole(STUDENT.name())     // THIS
+            .anyRequest()
+            .authenticated()
+        )
         .httpBasic(withDefaults()).formLogin();
 
     return http.build();
 }
 ```
+
+In order for the _POST_, _PUT_ and _DELETE_ requests to work, it is important to add `.csrd().disable()` after `http`.
+
+## Permission based authentication
+
+Using Authorities, we need to change the way users are built.<br> 
+In fact, now we have this implementation:
+```java
+...
+    .username("linda")
+    .password(passwordEncoder.encode("linda"))
+    .roles(ADMIN.name())
+    .build();
+        ...
+```
+which means that users are _**role-aware**_ with nothing about **permissions** or **authorities**.
+<br>
+<br>
+To add authorities to users, do the following:
+<br>
+```java
+    .username("linda")
+    .password(passwordEncoder.encode("linda"))
+    .authorities(...)
+    .build();
+```
+Now, what goes inside of `.authorities()`?<br>
++ a `String`
++ a `GrantedAuthority`
++ a `Collection<? extends GrantedAuthority>`
+
+If we go the implementation `authorities()`:
+```java
+public UserBuilder authorities(Collection<? extends GrantedAuthority> authorities) {
+    this.authorities = new ArrayList(authorities);
+    return this;
+}
+```
+
+We can see that it takes the _Collection_ of `GrantedAuthorities` and makes an `ArrayList` out of them.<br>
+So we have to create the roles ourselves.
+
+Inside the `ApplicationUserRole.java` class, we define a method to add permissions:
+```java
+public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
+        Set<SimpleGrantedAuthority> authorities = getPermissions().stream()
+                .map((ApplicationUserPermission permission) -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toSet());
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));   
+
+        return authorities;
+}
+```
+
+which results in this execution:
+
+    Inside getGrantedAuthorities
+    this.name() = STUDENT
+    authorities = [ROLE_STUDENT]
+    Inside getGrantedAuthorities
+    this.name() = ADMIN
+    authorities = [student:write, student:read, course:read, ROLE_ADMIN, course:write]
+    Inside getGrantedAuthorities
+    this.name() = ADMINTRAINEE
+    authorities = [student:read, ROLE_ADMINTRAINEE, course:read]
+
+
+
 
 
 
