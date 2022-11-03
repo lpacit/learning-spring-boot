@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7250cfe8-4de5-43fc-9c95-7c7ac2b26f03" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../mona-lisa.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../salvator-mundi.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../workbook 1.2/.idea/sonarlint/issuestore/b/4/b4baa78e473998f4e6e1e147b76e9732315111a6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../workbook 1.2/.idea/sonarlint/issuestore/e/8/e849d7460fbaa6900de09f921e5efbb7daa8ce16" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../workbook 1.2/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../workbook 1.2/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../workbook 1.3/solution/workbook-0.0.1.jar" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2GzzHLAq04OJohazeCWy7jcmRtF" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/lpacitto/OneDrive - Capgemini/Desktop/LEARNING/learning-spring-boot/udemy-course/01. intro-to-springboot/challenge/painting"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7250cfe8-4de5-43fc-9c95-7c7ac2b26f03" name="Changes" comment="" />
+      <created>1667406112993</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667406112993</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
