@@ -264,7 +264,7 @@ which results in this execution:
     this.name() = ADMINTRAINEE
     authorities = [student:read, ROLE_ADMINTRAINEE, course:read]
 
-### Adding DB Authentication
+## Adding DB Authentication
 <img src="images\UserDetailsService.png" width="50%"/>
 
 We usually have users stored in a database.
