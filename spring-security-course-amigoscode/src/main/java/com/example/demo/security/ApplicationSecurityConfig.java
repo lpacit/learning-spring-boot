@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.auth.ApplicationUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,9 +24,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class ApplicationSecurityConfig {
 
     private final ApplicationUserService applicationUserService;
+    private final PasswordEncoder passwordEncoder;
 
-    public ApplicationSecurityConfig(ApplicationUserService applicationUserService) {
+    @Autowired
+    public ApplicationSecurityConfig(ApplicationUserService applicationUserService, PasswordEncoder passwordEncoder) {
         this.applicationUserService = applicationUserService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -100,12 +104,12 @@ public class ApplicationSecurityConfig {
      *         );
      *     }
      * */
-    protected void configure(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider(passwordEncoder));
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passwordEncoder) {
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(applicationUserService);
