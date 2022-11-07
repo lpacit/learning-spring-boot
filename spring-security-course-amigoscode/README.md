@@ -224,9 +224,9 @@ To add authorities to users, do the following:
     .build();
 ```
 Now, what goes inside of `.authorities()`?<br>
-+ a `String`
-+ a `GrantedAuthority`
-+ a `Collection<? extends GrantedAuthority>`
++ `String`
++ `GrantedAuthority`
++ `Collection<? extends GrantedAuthority>`
 
 If we go the implementation `authorities()`:
 ```java
@@ -272,6 +272,24 @@ We usually have users stored in a database.
 + added `auth` package
   + `ApplicationUser` class implements `UserDetails` and overrides methods.
 + Created interface `ApplicationUserDAO` which defines the method to retrieve a user from username
++ 
+```java
+public interface ApplicationUserDAO {
+    Optional<ApplicationUser> selectApplicationUserByUsername(String username);
+}
+```
+
++ `selectApplicationUserByUsername` method must be implemented. Inside of `FAKEApplicatioUserDAOService`:
+
+```java
+@Override
+public Optional<ApplicationUser> selectApplicationUserByUsername(String username) {
+    return getApplicationUsers().stream()
+        .filter(applicationUser -> username.equals(applicationUser.getUsername()))
+        .findFirst();
+}
+```
+
 + Created `ApplicationUserService` which is the class that actually retrieves usernames.
 This is how:
 
@@ -293,6 +311,24 @@ public class ApplicationUserService implements UserDetailsService {
     }
 }
 ```
+
++ Changed the `ApplicationSecurityConfig` to
+
+```java
+protected void configure(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
+    auth.authenticationProvider(daoAuthenticationProvider(passwordEncoder));
+}
+
+@Bean
+public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passwordEncoder) {
+    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    provider.setPasswordEncoder(passwordEncoder);
+    provider.setUserDetailsService(applicationUserService);
+    return provider;
+}
+```
+
+
 
 
 
