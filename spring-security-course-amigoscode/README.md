@@ -265,13 +265,37 @@ which results in this execution:
     authorities = [student:read, ROLE_ADMINTRAINEE, course:read]
 
 ### Adding DB Authentication
+<img src="images\UserDetailsService.png" width="50%"/>
+
 We usually have users stored in a database.
 <br> Let's implement this logic.
 + added `auth` package
   + `ApplicationUser` class implements `UserDetails` and overrides methods.
-<br>
++ Created interface `ApplicationUserDAO` which defines the method to retrieve a user from username
++ Created `ApplicationUserService` which is the class that actually retrieves usernames.
+This is how:
 
-<img src="images\UserDetailsService.png" width="50%"/>
+```java
+@Service
+public class ApplicationUserService implements UserDetailsService {
+
+    private final ApplicationUserDAO applicationUserDao;
+
+    public ApplicationUserService(ApplicationUserDAO applicationUserDao) {
+        this.applicationUserDao = applicationUserDao;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return applicationUserDao
+                .selectApplicationUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", username)));
+    }
+}
+```
+
+
+
 
 
 
