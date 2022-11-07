@@ -105,7 +105,11 @@ public class ApplicationSecurityConfig {
      *     }
      * */
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
+        try {
+            auth.authenticationProvider(daoAuthenticationProvider());
+        } catch(Exception e) {
+            throw new Exception(e);
+        }
     }
 
     @Bean
