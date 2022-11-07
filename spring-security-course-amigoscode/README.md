@@ -331,6 +331,36 @@ public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passw
 ## JWT - Json Web Token
 <img src="images/jwt.png" width="50%" />
 
+Added two classes:
++ `JwtUsernameAndPasswordAuthenticationFilter.java`
+  + It handles the validation of the credentials sent by the client. This is the method:
+
+```java
+@Override
+public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+
+    try {
+        UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
+            .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            authenticationRequest.getUsername(),
+            authenticationRequest.getPassword()
+        );
+
+        return authenticationManager.authenticate(authentication);
+
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+}
+```
+
++ `UsernameAndPasswordAuthenticationRequest.java`
+  + It's the recipient class for the credentials.
+
+
+
 
 
 
