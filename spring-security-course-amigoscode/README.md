@@ -270,8 +270,8 @@ We usually have users stored in a database.
 + added `auth` package
   + `ApplicationUser` class implements `UserDetails` and overrides methods.
 <br>
-  + 
-<img src="images\UserDetailsService.png" width="80%"/>
+
+<img src="images\UserDetailsService.png" width="50%"/>
 
 
 
