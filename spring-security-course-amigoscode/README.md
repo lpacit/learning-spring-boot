@@ -269,6 +269,9 @@ We usually have users stored in a database.
 <br> Let's implement this logic.
 + added `auth` package
   + `ApplicationUser` class implements `UserDetails` and overrides methods.
+<br>
+  + 
+<img src="images\UserDetailsService.png" width="80%"/>
 
 
 
