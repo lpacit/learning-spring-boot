@@ -264,6 +264,12 @@ which results in this execution:
     this.name() = ADMINTRAINEE
     authorities = [student:read, ROLE_ADMINTRAINEE, course:read]
 
+### Adding DB Authentication
+We usually have users stored in a database.
+<br> Let's implement this logic.
++ added `auth` package
+  + `ApplicationUser` class implements `UserDetails` and overrides methods.
+
 
 
 
