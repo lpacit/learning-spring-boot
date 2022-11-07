@@ -328,6 +328,8 @@ public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passw
 }
 ```
 
+## JWT - Json Web Token
+<img src="images/jwt.png" width="50%" />
 
 
 
