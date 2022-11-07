@@ -331,6 +331,8 @@ public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passw
 ## JWT - Json Web Token
 <img src="images/jwt.png" width="50%" />
 
+### Validate credentials
+
 Added two classes:
 + `JwtUsernameAndPasswordAuthenticationFilter.java`
   + It handles the validation of the credentials sent by the client. This is the method:
@@ -359,6 +361,28 @@ public Authentication attemptAuthentication(HttpServletRequest request, HttpServ
 + `UsernameAndPasswordAuthenticationRequest.java`
   + It's the recipient class for the credentials.
 
+### Generate Token and send to client
+
+```java
+@Override
+protected void successfulAuthentication(HttpServletRequest request, 
+                                        HttpServletResponse response, 
+                                        FilterChain chain, 
+                                        Authentication authResult) throws IOException, ServletException 
+{
+    String key = "securesecuresecuresecuresecuresecuresecuresecuresecuresecure";
+
+    String token = Jwts.builder()
+        .setSubject(authResult.getName())
+        .claim("authorities", authResult.getAuthorities())
+        .setIssuedAt(new Date())
+        .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
+        .signWith(Keys.hmacShaKeyFor(key.getBytes()))
+        .compact();
+
+    response.setHeader("Authorization", "Bearer " + token);
+}
+```
 
 
 
