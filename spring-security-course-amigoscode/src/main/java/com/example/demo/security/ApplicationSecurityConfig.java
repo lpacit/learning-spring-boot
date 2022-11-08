@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.auth.ApplicationUserService;
+import com.example.demo.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,6 +53,7 @@ public class ApplicationSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager())
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                         .antMatchers("/api/**").hasRole(STUDENT.name())
