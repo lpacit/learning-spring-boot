@@ -6,18 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.concurrent.TimeUnit;
-
+import static com.example.demo.customDSL.MyCustomDslForAuthenticationManager.customDsl;
 import static com.example.demo.security.ApplicationUserRole.*;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -52,17 +52,17 @@ public class ApplicationSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager())
-                .authorizeHttpRequests(authorize -> authorize
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager())) NO LONGER SUPPORTED SINCE WebSecurityConfigurerAdapter DEPRECATED
+                .authorizeRequests(authorize -> authorize
                         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                         .antMatchers("/api/**").hasRole(STUDENT.name())
                         .anyRequest()
-                        .authenticated()
-                )
-                .httpBasic(withDefaults())
+                        .authenticated())
+                .httpBasic(Customizer.withDefaults());
 
-
+        http.apply(customDsl());
         return http.build();
     }
 
