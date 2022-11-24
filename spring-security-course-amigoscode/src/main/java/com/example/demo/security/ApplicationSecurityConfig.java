@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.auth.ApplicationUserService;
+import com.example.demo.jwt.JwtTokenVerifier;
 import com.example.demo.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static com.example.demo.customDSL.MyCustomDslForAuthenticationManager.customDsl;
+import static com.example.demo.customDSL.MyCustomDsl.customDsl;
 import static com.example.demo.security.ApplicationUserRole.*;
 
 @Configuration
@@ -54,7 +55,6 @@ public class ApplicationSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager())) NO LONGER SUPPORTED SINCE WebSecurityConfigurerAdapter DEPRECATED
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                         .antMatchers("/api/**").hasRole(STUDENT.name())
