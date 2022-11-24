@@ -4,6 +4,9 @@ public class UsernameAndPasswordAuthenticationRequest {
     private String username;
     private String password;
 
+    /**
+     * empty don't know why
+     * */
     public UsernameAndPasswordAuthenticationRequest() {
     }
 
