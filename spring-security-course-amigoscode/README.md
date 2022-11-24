@@ -362,7 +362,7 @@ public Authentication attemptAuthentication(HttpServletRequest request, HttpServ
   + It's the recipient class for the credentials.
 
 ### Generate Token and send to client
-
++ Inside of ```JwtUsernameAndPasswordAuthenticationFilter.java```
 ```java
 @Override
 protected void successfulAuthentication(HttpServletRequest request, 
