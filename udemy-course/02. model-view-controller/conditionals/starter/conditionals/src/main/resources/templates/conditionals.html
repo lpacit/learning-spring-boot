@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
         <title>Conditionals</title>
     </head>
     <body>
-                
+        <p th:if="${sales > 30}">Sales are good</p>
+        <p th:if="${sales < 30}">Sales are not good</p>
     </body>
 </html>

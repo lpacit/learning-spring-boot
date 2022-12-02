@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
   <head> 
     <title>Grades</title>
     <style>
@@ -114,6 +114,11 @@
           <th>Student</th>
           <th>Subject</th>
           <th>Score</th>
+        </tr>
+        <tr th:object="${grade.name}">
+          <td th:text="*{name}"></td>
+          <td th:text="*{subject}"></td>
+          <td th:text="*{score}"></td>
         </tr>
       </table>
     </div>
